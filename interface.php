@@ -1,7 +1,7 @@
 <div class="wrap">
   <h1 class="wp-heading-inline">721 Management</h1>
   <hr class="wp-header-end">
-  <table class="widefat fixed" cellspacing="0">
+  <table class="widefat fixed" cellspacing="0" style="width: auto;">
     <thead>
       <tr>
         <th>ID</th>
