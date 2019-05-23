@@ -10,11 +10,11 @@ License: FIIK
 */
 
 if(is_admin()) {
-  add_action('admin_menu', '721mgmt');
+  add_action('admin_menu', 'mgmt');
 }
 
-function 721mgmt(){
-  add_options_page("721 Manager", "721 Manager", "edit_pages", "my-options", "show_mgmt");
+function mgmt(){
+  add_options_page("721 Management", "721 Management", "edit_pages", "721-mgmt", "show_mgmt");
 }
 
 function show_mgmt(){
