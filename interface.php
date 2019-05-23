@@ -1,5 +1,5 @@
 <div class="wrap">
-  <h1 class="wp-heading-inline">721 Management Forever</h1>
+  <h1 class="wp-heading-inline">721 Management</h1>
   <hr class="wp-header-end">
   <table class="widefat fixed" cellspacing="0">
     <thead>
@@ -17,24 +17,24 @@
       <td>Johnny Johnson (Gold/Blue)</td>
       <td>0x7DfEAd29A1BBE27cFA38Ba73f84872DB40932844</td>
       <td>False</td>
-      <td>View</td>
-      <td>Transfer</td>
+      <td><a href="#">View</a></td>
+      <td><a href="#" class="button button-primary">Transfer</a></td>
     </tr>
     <tr>
       <td>0</td>
       <td>Timmy Timmerson (Silver/Purple)</td>
       <td>0x7DfEAd29A1BBE27cFA38Ba73f84872DB40932844</td>
       <td>False</td>
-      <td>View</td>
-      <td>Transfer</td>
+      <td><a href="#">View</a></td>
+      <td><a href="#" class="button button-primary">Transfer</a></td>
     </tr>
     <tr>
       <td>0</td>
       <td>Richard Rickards (Red/Black)</td>
       <td>0x7DfEAd29A1BBE27cFA38Ba73f84872DB40932844</td>
       <td>False</td>
-      <td>View</td>
-      <td>Transfer</td>
+      <td><a href="#">View</a></td>
+      <td><a href="#" class="button button-primary">Transfer</a></td>
     </tr>
   </table>
 </div>
