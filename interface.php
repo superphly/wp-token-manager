@@ -15,24 +15,24 @@
     <tr>
       <td>0</td>
       <td>Johnny Johnson (Gold/Blue)</td>
-      <td>0x7DfEAd29A1BBE27cFA38Ba73f84872DB40932844</td>
-      <td>QmUQcSjQx2bg4cSe2rUZyQi6F8QtJFJb74fWL7D784UWf9</td>
+      <td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a=0x7dfead29a1bbe27cfa38ba73f84872db40932844">0x7DfEAd29A1BBE27cFA38Ba73f84872DB40932844</a></td>
+      <td><a href="https://ipfs.infura.io/ipfs/QmUQcSjQx2bg4cSe2rUZyQi6F8QtJFJb74fWL7D784UWf9">QmUQcSjQx2bg4cSe2rUZyQi6F8QtJFJb74fWL7D784UWf9</a></td>
       <td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a=0">View</a></td>
       <td><a href="#" class="button button-primary">Transfer</a></td>
     </tr>
     <tr>
       <td>1</td>
       <td>Timmy Timmerson (Silver/Purple)</td>
-      <td>0x7DfEAd29A1BBE27cFA38Ba73f84872DB40932844</td>
-      <td>QmdytmR4wULMd3SLo6ePF4s3WcRHWcpnJZ7bHhoj3QB13v</td>
+      <td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a=0x7dfead29a1bbe27cfa38ba73f84872db40932844">0x7DfEAd29A1BBE27cFA38Ba73f84872DB40932844</a></td>
+      <td><a href="https://ipfs.infura.io/ipfs/QmdytmR4wULMd3SLo6ePF4s3WcRHWcpnJZ7bHhoj3QB13v">QmdytmR4wULMd3SLo6ePF4s3WcRHWcpnJZ7bHhoj3QB13v</a></td>
       <td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a=1">View</a></td>
       <td><a href="#" class="button button-primary">Transfer</a></td>
     </tr>
     <tr>
       <td>2</td>
       <td>Richard Rickards (Red/Black)</td>
-      <td>0x7DfEAd29A1BBE27cFA38Ba73f84872DB40932844</td>
-      <td>QmSFxnK675wQ9Kc1uqWKyJUaNxvSc2BP5DbXCD3x93oq61</td>
+      <td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a=0x7dfead29a1bbe27cfa38ba73f84872db40932844">0x7DfEAd29A1BBE27cFA38Ba73f84872DB40932844</a></td>
+      <td><a href="https://ipfs.infura.io/ipfs/QmSFxnK675wQ9Kc1uqWKyJUaNxvSc2BP5DbXCD3x93oq61">QmSFxnK675wQ9Kc1uqWKyJUaNxvSc2BP5DbXCD3x93oq61</a></td>
       <td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a=2">View</a></td>
       <td><a href="#" class="button button-primary">Transfer</a></td>
     </tr>
