@@ -8,7 +8,6 @@
         <th>Asset Name</th>
         <th>Owner (Address)</th>
         <th>Hash</th>
-        <th>Auction Active</th>
         <th>Etherscan</th>
         <th>Actions</th>
       </tr>
@@ -17,8 +16,7 @@
       <td>0</td>
       <td>Johnny Johnson (Gold/Blue)</td>
       <td>0x7DfEAd29A1BBE27cFA38Ba73f84872DB40932844</td>
-      <td>QmUQcSjQx2bg4cSe2rUZyQi6F8QtJFJb74fWL7D784UWf9</td>      
-      <td>False</td>
+      <td>QmUQcSjQx2bg4cSe2rUZyQi6F8QtJFJb74fWL7D784UWf9</td>
       <td><a href="#">View</a></td>
       <td><a href="#" class="button button-primary">Transfer</a></td>
     </tr>
@@ -27,7 +25,6 @@
       <td>Timmy Timmerson (Silver/Purple)</td>
       <td>0x7DfEAd29A1BBE27cFA38Ba73f84872DB40932844</td>
       <td>QmdytmR4wULMd3SLo6ePF4s3WcRHWcpnJZ7bHhoj3QB13v</td>
-      <td>False</td>
       <td><a href="#">View</a></td>
       <td><a href="#" class="button button-primary">Transfer</a></td>
     </tr>
@@ -36,7 +33,6 @@
       <td>Richard Rickards (Red/Black)</td>
       <td>0x7DfEAd29A1BBE27cFA38Ba73f84872DB40932844</td>
       <td>QmSFxnK675wQ9Kc1uqWKyJUaNxvSc2BP5DbXCD3x93oq61</td>
-      <td>False</td>
       <td><a href="#">View</a></td>
       <td><a href="#" class="button button-primary">Transfer</a></td>
     </tr>
