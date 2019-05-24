@@ -11,7 +11,7 @@ License: FIIK
 
 function tokenjscss() {
   wp_enqueue_script( 'jsrender', 'https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js', null, null, true );
-  wp_enqueue_script( 'web3', 'https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.34/dist/web3.min.js', null, null, true );
+  wp_enqueue_script( 'web3', 'https://cdn.jsdelivr.net/npm/web3@1.0.0-beta.55/dist/web3.umd.min.js', null, null, true );
   
 }
 
