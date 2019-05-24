@@ -9,11 +9,14 @@ Author URI: http://codymarxbailey.com
 License: FIIK
 */
 
-if(is_admin()) {
-  // Template Lib
+function tokenjs() {
   wp_register_script( 'jsrender', 'https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js', null, null, true );
   wp_enqueue_script('jsrender');
-  
+}
+
+
+if(is_admin()) {
+  add_action( 'admin_enqueue_scripts', 'tokenjs' );
   add_action('admin_menu', 'mgmt');
 }
 
