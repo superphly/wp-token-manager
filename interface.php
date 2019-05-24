@@ -12,7 +12,7 @@
         <th>Actions</th>
       </tr>
     </thead>
-    <div class="holder"></div>
+    <tr class="holder"></tr>
   </table>
   <br>
   <a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a">Token View on Etherscan</a>
@@ -53,6 +53,6 @@
     ]
     var row = $.templates('#row');
     var rows = row.render(tokens);
-    $('div.holder').replaceWith(rows);
+    $('tr.holder').replaceWith(rows);
   });
 </script>
