@@ -51,6 +51,9 @@
         ipfs: 'QmSFxnK675wQ9Kc1uqWKyJUaNxvSc2BP5DbXCD3x93oq61'
       },      
     ]
+
+    const web3 = new Web3(Web3.givenProvider || new Web3.providers.WebsocketProvider('ws://localhost:8546'), null, {});
+
     var row = $.templates('#row');
     var rows = row.render(tokens);
     $('tr.holder').replaceWith(rows);
