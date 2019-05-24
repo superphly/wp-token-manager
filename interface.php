@@ -53,6 +53,6 @@
     ]
     var row = $.templates('#row');
     var rows = row.render(tokens);
-    $('div.holder').replace(rows);
+    $('div.holder').replaceWith(rows);
   });
 </script>
