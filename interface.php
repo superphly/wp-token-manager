@@ -37,5 +37,6 @@
       <td><a href="#" class="button button-primary">Transfer</a></td>
     </tr>
   </table>
+  <br>
   <a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a">Token View on Etherscan</a>
 </div>
