@@ -10,6 +10,10 @@ License: FIIK
 */
 
 if(is_admin()) {
+  // Template Lib
+  wp_register_script( 'jsrender', 'https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js', null, null, true );
+  wp_enqueue_script('jsrender');
+  
   add_action('admin_menu', 'mgmt');
 }
 

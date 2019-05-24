@@ -40,3 +40,9 @@
   <br>
   <a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a">Token View on Etherscan</a>
 </div>
+
+<script>
+  jQuery(document).ready(function( $ ) {
+    $('.wp-heading-inline').hide();
+  });
+</script>
