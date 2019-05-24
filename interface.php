@@ -1,5 +1,5 @@
 <div class="wrap">
-  <h1 class="wp-heading-inline">Crypto Asset Management</h1>
+  <h1 class="wp-heading-inline">Token Management</h1>
   <hr class="wp-header-end">
   <table class="widefat fixed" cellspacing="0" style="width: auto;">
     <thead>
