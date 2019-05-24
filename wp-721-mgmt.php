@@ -14,7 +14,7 @@ if(is_admin()) {
 }
 
 function mgmt(){
-  add_menu_page("Token Management", "Token Management", "manage_options", "721-mgmt", "show_mgmt", '', 22);
+  add_menu_page("Token Management", "Token Management", "manage_options", "721-mgmt", "show_mgmt", '', 16);
 }
 
 function show_mgmt(){
