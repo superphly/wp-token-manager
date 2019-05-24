@@ -1,0 +1,22 @@
+{
+  "name": "wp-721-mgmt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/superphly/wp-721-mgmt.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/superphly/wp-721-mgmt/issues"
+  },
+  "homepage": "https://github.com/superphly/wp-721-mgmt#readme",
+  "dependencies": {
+    "web3": "^1.0.0-beta.55"
+  }
+}
