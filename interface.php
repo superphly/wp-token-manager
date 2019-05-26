@@ -73,7 +73,9 @@
       $('.myEtherAddress').replaceWith(web3.eth.accounts[0]);
     }
 
-    web3.currentProvider.publicConfigStore.on('update', updateInterface);
+    web3.currentProvider.publicConfigStore.on('update', () => {
+      $('.myEtherAddress').replaceWith(web3.eth.accounts[0]);
+    });
 
     updateInterface();
   });
