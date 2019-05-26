@@ -1,12 +1,13 @@
 <div class="wrap">
   <h1 class="wp-heading-inline">Token Management</h1>
   <hr class="wp-header-end">
-  <div class="card">
+
+  <div class="card" style="margin-bottom: 1em">
 		<h2 class="title">Your Ethereum Info</h2>
 		<p><strong>Ethereum Address:</strong> <span class="myEtherAddress"></span></p>
 	</div>
 
-  <table class="widefat fixed" cellspacing="0" style="width: auto;">
+  <table class="widefat striped fixed" cellspacing="0" style="width: auto;">
     <thead>
       <tr>
         <th>ID</th>
