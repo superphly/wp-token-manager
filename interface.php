@@ -74,5 +74,7 @@
     }
 
     web3.currentProvider.publicConfigStore.on('update', updateInterface);
+
+    updateInterface();
   });
 </script>
