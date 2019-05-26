@@ -66,10 +66,13 @@
     }
 
     var row = $.templates('#row');
-    var rows = row.render(tokens);
-    $('tr.holder').replaceWith(rows);
 
-    $('.myEtherAddress').replaceWith(web3.eth.accounts[0]);
+    function updateInterface() {
+      var rows = row.render(tokens);
+      $('tr.holder').replaceWith(rows);
+      $('.myEtherAddress').replaceWith(web3.eth.accounts[0]);
+    }
 
+    web3.currentProvider.publicConfigStore.on('update', updateInterface);
   });
 </script>
