@@ -1,6 +1,11 @@
 <div class="wrap">
   <h1 class="wp-heading-inline">Token Management</h1>
   <hr class="wp-header-end">
+  <div class="card">
+		<h2 class="title">Your Ethereum Info</h2>
+		<p><strong>Ethereum Address:</strong> <span class="myEtherAddress"></span></p>
+	</div>
+
   <table class="widefat fixed" cellspacing="0" style="width: auto;">
     <thead>
       <tr>
@@ -62,5 +67,8 @@
     var row = $.templates('#row');
     var rows = row.render(tokens);
     $('tr.holder').replaceWith(rows);
+
+    $('.myEtherAddress').replaceWith(web3.eth.accounts[0]);
+
   });
 </script>
