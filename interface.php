@@ -78,7 +78,7 @@
 		var dir = '<?php echo plugins_url(); ?>';
 
 		// Tokens
-		var tokenIds = [1,2,3];
+		var tokenIds = [0,1,2];
 		
 		// Fetch JSON
 		var data = [...await Promise.all(tokenIds.map(i => axios.get(`${dir}/token-manager/json/${i}.json`)))]
