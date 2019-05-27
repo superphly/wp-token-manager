@@ -67,7 +67,7 @@
 				if (e) return reject(e)
 				var infoCardTemplate = jQuery.templates('#infoCardContent');
 				var infoCardContent = infoCardTemplate({ balance, currentAddress });
-				jQuery('div#infoCard').empty().html(infoCardContent);
+				jQuery('div#infoCard').empty().html(infoCardContent);				
 				resolve()
 			});
 		}) // cb fn dont return anything..
@@ -92,15 +92,16 @@
 		jQuery('table#tokenTable tbody').empty().html(tokenRows);
 	}
 
-	web3init();
-
 	var wait = (ms) => new Promise(r => setTimeout(r, ms))
+
+	web3init();
 
 	jQuery(document).ready(async () => {
 		console.log('init')
 		try {
-			//await wait(5000)
+//			await wait(3000)
 			await updateInfoCard(); // now you must await it, and you should catch it too, i.e. no balance data, abort?
+			await wait(5000)
 			updateTokenTable();		
 		} catch(e) {
 			console.log('fook')
