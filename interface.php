@@ -101,7 +101,6 @@
 	//jQuery(document).ready(async () => {
 	(async () => {
 		try {
-			await wait(5000)
 			await updateInfoCard(); // now you must await it, and you should catch it too, i.e. no balance data, abort?
 			updateTokenTable();		
 		} catch(e) {
