@@ -53,16 +53,16 @@
   var tokenRow;
   var infoCardContent;
 
-  function updateInfoCard($) {
+  function updateInfoCard() {
     var currentAddress = web3.eth.accounts[0];
-    $('.myEtherAddress').text(currentAddress);
-    web3.eth.getBalance(currentAddress, (e, r) => { $('.myEtherBalance').text(r[0]) });
-  }(jQuery)
+    jQuery('.myEtherAddress').text(currentAddress);
+    web3.eth.getBalance(currentAddress, (e, r) => { jQuery('.myEtherBalance').text(r[0]) });
+  }
 
-  function updateTokenTable($) {
+  function updateTokenTable() {
     var tokenRows = tokenRow.render(tokens);
-    $('table#tokenTable tbody').empty().html(tokenRows);
-  }(jQuery)
+    jQuery('table#tokenTable tbody').empty().html(tokenRows);
+  }
 
   jQuery(document).ready(function($) {
     if (typeof web3 !== 'undefined') {
