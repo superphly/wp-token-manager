@@ -81,8 +81,8 @@
 		var tokenIds = [1,2,3];
 		
 		// Fetch JSON
-		var data = await Promise.all(tokenIds.map(i => axios.get(`${dir}/token-manager/json/${i}.json`)));	
-		
+		var data = await Promise.all(tokenIds.map(i => axios.get(`${dir}/token-manager/json/${i}.json`)));
+		console.log(typeof data)
 		// Run JSON through templates
 		var tokenRowTemplate = jQuery.templates('#tokenRow');
 		var tokenRows = tokenRowTemplate.render(data);
@@ -92,6 +92,7 @@
 	}
 
 	jQuery(document).ready(async () => {
+		console.log('init')
 		try {
 			web3init();
 			await updateInfoCard(); // now you must await it, and you should catch it too, i.e. no balance data, abort?
