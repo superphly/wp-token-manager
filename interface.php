@@ -37,7 +37,10 @@
 
 <script id="infoCardContent" type="text/x-jsrender">
 	<h2 class="title">Your Ethereum Info</h2>
-	<p><strong>Ethereum Address:</strong> {{:currentAddress}}</p>
+	<p>
+		<strong>Ethereum Address:</strong> {{:currentAddress}}<br>
+		<strong>Balance: {{:balance}}
+	</p>
 </script>
 
 <script defer>
