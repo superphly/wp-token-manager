@@ -2,12 +2,11 @@
   <h1 class="wp-heading-inline">Token Management</h1>
   <hr class="wp-header-end">
 
-  <div class="card" style="margin-bottom: 1em">
-		<h2 class="title">Your Ethereum Info</h2>
-		<p><strong>Ethereum Address:</strong> <span class="myEtherAddress"></span></p>
+  <div id="infoCard" class="card" style="margin-bottom: 1em">
+
 	</div>
 
-  <table class="widefat striped fixed" cellspacing="0" style="width: auto;">
+  <table id="tokenTable" class="widefat striped fixed" cellspacing="0" style="width: auto;">
     <thead>
       <tr>
         <th>ID</th>
@@ -18,13 +17,14 @@
         <th>Actions</th>
       </tr>
     </thead>
-    <tr class="holder"></tr>
+    <tbody>
+    </tbody>
   </table>
   <br>
   <a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a">Token View on Etherscan</a>
 </div>
 
-<script id="row" type="text/x-jsrender">
+<script id="tokenRow" type="text/x-jsrender">
   <tr>
     <td>{{:id}}</td>
     <td>{{:name}}</td>
@@ -33,6 +33,11 @@
     <td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a={{:id}}">View</a></td>
     <td><a href="#" class="button button-primary" onClick="transfer({{:id}})">Transfer</a></td>
   </tr>
+</script>
+
+<script id="infoCardContent" type="text/x-jsrender">
+		<h2 class="title">Your Ethereum Info</h2>
+		<p><strong>Ethereum Address:</strong> <span class="myEtherAddress"></span></p>
 </script>
 
 <script>
@@ -45,17 +50,18 @@
   var tokens = [1,2,3];
 
   // Templates
-  var row = jQuery.templates('#row');
+  var tokenRow;
+  var infoCardContent;
 
-  function updateInfo() {
-      var currentAddress = web3.eth.accounts[0];
-      $('.myEtherAddress').text(currentAddress);
-      web3.eth.getBalance(currentAddress, (e, r) => { $('.myEtherBalance').text(r[0]) });
+  function updateInfoCard() {
+    var currentAddress = web3.eth.accounts[0];
+    $('.myEtherAddress').text(currentAddress);
+    web3.eth.getBalance(currentAddress, (e, r) => { $('.myEtherBalance').text(r[0]) });
   }
 
-  function updateTokens() {
-    var rows = row.render(tokens);
-    $('tr.holder').replaceWith(rows);
+  function updateTokenTable() {
+    var tokenRows = tokenRow.render(tokens);
+    $('table#tokenTable tbody').empty().html(tokenRows);
   }
 
   jQuery(document).ready(function($) {
@@ -66,9 +72,12 @@
       web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
     }
 
-    web3.currentProvider.publicConfigStore.on('update', updateInfo);
+    var tokenRow = $.templates('#tokenRow');
+    var infoCardContent = $.templates('#infoCardContent');
 
-    updateTable();
-    updateInfo();
+    web3.currentProvider.publicConfigStore.on('update', updateInfoCard);
+
+    updateInfoCard();
+    updateTokenTable();
   });
 </script>
