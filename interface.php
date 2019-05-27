@@ -40,7 +40,7 @@
 	<p><strong>Ethereum Address:</strong> {{:currentAddress}}</p>
 </script>
 
-<script>
+<script defer>
 	// Web 3 initialization and contract
 	function web3init() {
 		if (typeof web3 !== 'undefined') {
@@ -96,15 +96,16 @@
 
 	web3init();
 
-	jQuery(document).ready(async () => {
-		console.log('init')
+	//console.log(window.onload)
+
+	//jQuery(document).ready(async () => {
+	(async () => {
 		try {
-//			await wait(3000)
-			await updateInfoCard(); // now you must await it, and you should catch it too, i.e. no balance data, abort?
 			await wait(5000)
+			await updateInfoCard(); // now you must await it, and you should catch it too, i.e. no balance data, abort?
 			updateTokenTable();		
 		} catch(e) {
 			console.log('fook')
 		}
-	})
+	})()
 </script>
