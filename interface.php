@@ -46,11 +46,16 @@
 		var data = {}
 		data.currentAddress = web3.eth.accounts[0];
 		data.balance = web3.eth.getBalance(data.currentAddress, (e, r) => r);
+
+		var infoCardTemplate = jQuery.templates('#infoCardContent');
 		var infoCardContent = infoCardTemplate(data);
 		jQuery('div#infoCard').empty().html(infoCardContent);
 	}
 
 	async function updateTokenTable() {
+		// Plugin Dir
+		var dir = '<?php echo plugins_url(); ?>';
+
 		// Tokens
 		var tokenIds = [1,2,3];
 		
@@ -58,6 +63,7 @@
 		var data = await Promise.all(tokenIds.map(i => axios.get(`${dir}/token-manager/json/${i}.json`)));	
 		
 		// Run JSON through templates
+		var tokenRowTemplate = jQuery.templates('#tokenRow');
 		var tokenRows = tokenRowTemplate.render(data);
 
 		// Dump templates into DOM
@@ -82,11 +88,6 @@
 
 	// Main Init
 	function init() {
-		// Templates
-		var dir = '<?php echo plugins_url(); ?>';
-		var tokenRowTemplate = jQuery.templates('#tokenRow');
-		var infoCardTemplate = jQuery.templates('#infoCardContent');
-
 		web3init();
 		updateInfoCard();
 		updateTokenTable();
