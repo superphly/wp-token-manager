@@ -50,27 +50,35 @@
 	var registry = registryContract.at('0xfED7020A24472aca24b1AfA2f71a388C17F6634A');
 
 	// Tokens
-	var tokens = [1,2,3];
-	tokens = await Promise.all(tokens.map(i => axios.get(`${dir}/token-manager/json/${i}.json`)));
+	var tokenIds = [1,2,3];
 
 	// Templates
 	var tokenRowTemplate;
 	var infoCardTemplate;
 
+	// UI Update Functions
 	function updateInfoCard() {
 		var data = {}
 		data.currentAddress = web3.eth.accounts[0];
-		data.balance = web3.eth.getBalance(data.currentAddress, (e, r) => { return r });
+		data.balance = web3.eth.getBalance(data.currentAddress, (e, r) => r);
 		var infoCardContent = infoCardTemplate(data);
 		jQuery('div#infoCard').empty().html(infoCardContent);
 	}
 
-	function updateTokenTable() {
-		var tokenRows = tokenRowTemplate.render(tokens);
-		jQuery('table#tokenTable tbody').empty().html(tokenRows);
+	function updateTokenTable(tokenIds) { // array of ids [0,1,2,3,4,5]
+		return new Promise(async (resolve, reject) => {
+			try {
+				var data = await Promise.all(tokenIds.map(i => axios.get(`${dir}/token-manager/json/${i}.json`)));	
+				var tokenRows = tokenRowTemplate.render(data);
+				jQuery('table#tokenTable tbody').empty().html(tokenRows);
+			} catch(e) {
+				reject(e)
+			}
+		})
 	}
 
-	jQuery(document).ready(function($) {
+	// Main Init
+	async function init($) {
 		if (typeof web3 !== 'undefined') {
 			web3 = new Web3(web3.currentProvider);
 		} else {
@@ -78,14 +86,17 @@
 			web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 		}
 
-		
-
 		tokenRowTemplate = $.templates('#tokenRow');
 		infoCardTemplate = $.templates('#infoCardContent');
 
 		web3.currentProvider.publicConfigStore.on('update', updateInfoCard);
-
 		updateInfoCard();
-		updateTokenTable();
-	});
+		try {
+			updateTokenTable(tokenIds);
+		} catch(e) {
+			console.log(e);
+		}
+	}
+
+	jQuery(document).ready(init)
 </script>
