@@ -62,7 +62,7 @@
   }
 
   function updateTokenTable() {
-    var tokenRows = tokenRow.render(tokens);
+    var tokenRows = tokenRowTemplate.render(tokens);
     jQuery('table#tokenTable tbody').empty().html(tokenRows);
   }
 
