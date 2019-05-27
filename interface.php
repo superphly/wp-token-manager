@@ -67,16 +67,18 @@
 
     var row = $.templates('#row');
 
-    function updateInterface() {
+    function updateTable() {
       var rows = row.render(tokens);
       $('tr.holder').replaceWith(rows);
-      $('.myEtherAddress').replaceWith(web3.eth.accounts[0]);
+    }
+
+    function updateInfo() {
+      web3.eth.getAccounts((e, r) => { $('.myEtherAddress').text(r[0]) });
     }
 
     web3.currentProvider.publicConfigStore.on('update', () => {
-      $('.myEtherAddress').replaceWith(web3.eth.accounts[0]);
+      web3.eth.getAccounts((e, r) => { $('.myEtherAddress').text(r[0]) });
     });
 
-    updateInterface();
   });
 </script>
