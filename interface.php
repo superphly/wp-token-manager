@@ -36,8 +36,8 @@
 </script>
 
 <script id="infoCardContent" type="text/x-jsrender">
-		<h2 class="title">Your Ethereum Info</h2>
-		<p><strong>Ethereum Address:</strong> <span class="myEtherAddress"></span></p>
+	<h2 class="title">Your Ethereum Info</h2>
+	<p><strong>Ethereum Address:</strong> {{:currentAddress}}</p>
 </script>
 
 <script>
@@ -50,13 +50,15 @@
   var tokens = [1,2,3];
 
   // Templates
-  var tokenRow;
-  var infoCardContent;
+  var tokenRowTemplate;
+  var infoCardTemplate;
 
   function updateInfoCard() {
-    var currentAddress = web3.eth.accounts[0];
-    jQuery('.myEtherAddress').text(currentAddress);
-    web3.eth.getBalance(currentAddress, (e, r) => { jQuery('.myEtherBalance').text(r[0]) });
+    var data = {}
+    var data.currentAddress = web3.eth.accounts[0];
+    var data.balance = web3.eth.getBalance(currentAddress, (e, r) => { return r });
+    var infoCardContent = infoCardTemplate(data);
+    jQuery('div#infoCard').empty().content(infoCardContent);
   }
 
   function updateTokenTable() {
@@ -72,8 +74,8 @@
       web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
     }
 
-    tokenRow = $.templates('#tokenRow');
-    infoCardContent = $.templates('#infoCardContent');
+    tokenRowTemplate = $.templates('#tokenRow');
+    infoCardTemplate = $.templates('#infoCardContent');
 
     web3.currentProvider.publicConfigStore.on('update', updateInfoCard);
 
