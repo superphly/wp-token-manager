@@ -72,8 +72,8 @@
       web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
     }
 
-    var tokenRow = $.templates('#tokenRow');
-    var infoCardContent = $.templates('#infoCardContent');
+    tokenRow = $.templates('#tokenRow');
+    infoCardContent = $.templates('#infoCardContent');
 
     web3.currentProvider.publicConfigStore.on('update', updateInfoCard);
 
