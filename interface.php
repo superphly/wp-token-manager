@@ -92,10 +92,13 @@
 		jQuery('table#tokenTable tbody').empty().html(tokenRows);
 	}
 
+	var wait = (ms) => new Promise(r => setTimeout(r, ms))
+
 	jQuery(document).ready(async () => {
 		console.log('init')
 		try {
 			web3init();
+			await wait(1000)
 			await updateInfoCard(); // now you must await it, and you should catch it too, i.e. no balance data, abort?
 			updateTokenTable();		
 		} catch(e) {
