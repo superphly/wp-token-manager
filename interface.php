@@ -45,7 +45,7 @@
   var tokens = [1,2,3];
 
   // Templates
-  var row = $.templates('#row');
+  var row = jQuery.templates('#row');
 
   function updateInfo() {
       var currentAddress = web3.eth.accounts[0];
