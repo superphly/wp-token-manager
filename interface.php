@@ -31,7 +31,7 @@
     <td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a={{:owner}}">{{:owner}}</a></td>
     <td><a href="https://ipfs.infura.io/ipfs/{{:ipfs}}">{{:ipfs}}</a></td>
     <td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a={{:id}}">View</a></td>
-    <td><a href="#" class="button button-primary">Transfer</a></td>
+    <td><a href="#" class="button button-primary" onClick="transfer({{:id}})">Transfer</a></td>
   </tr>
 </script>
 
@@ -78,6 +78,7 @@
 
     web3.currentProvider.publicConfigStore.on('update', () => {
       web3.eth.getAccounts((e, r) => { $('.myEtherAddress').text(r[0]) });
+      web3.eth.getBalance((e, r) => { $('.myEtherAddress').text(r[0]) });
     });
 
     updateTable();
