@@ -80,5 +80,8 @@
       web3.eth.getAccounts((e, r) => { $('.myEtherAddress').text(r[0]) });
     });
 
+    updateTable();
+    updateInfo();
+
   });
 </script>
