@@ -81,8 +81,9 @@
 		var tokenIds = [1,2,3];
 		
 		// Fetch JSON
-		var data = await Promise.all(tokenIds.map(i => axios.get(`${dir}/token-manager/json/${i}.json`)));
-		console.log(JSON.stringify(data))
+		var data = [...await Promise.all(tokenIds.map(i => axios.get(`${dir}/token-manager/json/${i}.json`)))]
+			.map(r => r.data)
+	
 		// Run JSON through templates
 		var tokenRowTemplate = jQuery.templates('#tokenRow');
 		var tokenRows = tokenRowTemplate.render(data);
