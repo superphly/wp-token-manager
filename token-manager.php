@@ -11,6 +11,7 @@ License: FIIK
 
 function tokenjscss() {
   wp_enqueue_script( 'jsrender', 'https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js', null, null, true );
+  wp_enqueue_script( 'axios', 'https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js', null, null, true ); 
 }
 
 if(is_admin()) {
