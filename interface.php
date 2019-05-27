@@ -58,7 +58,7 @@
     data.currentAddress = web3.eth.accounts[0];
     data.balance = web3.eth.getBalance(data.currentAddress, (e, r) => { return r });
     var infoCardContent = infoCardTemplate(data);
-    jQuery('div#infoCard').empty().content(infoCardContent);
+    jQuery('div#infoCard').empty().html(infoCardContent);
   }
 
   function updateTokenTable() {
