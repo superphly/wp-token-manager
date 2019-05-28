@@ -44,7 +44,7 @@
 </script>
 
 <script defer>
-	// Web 3 initialization and contract
+	// Web 3 initialization and contract setup
 	function web3init() {
 		if (typeof web3 !== 'undefined') {
 			web3 = new Web3(web3.currentProvider);
@@ -65,7 +65,7 @@
 	function updateInfoCard() {
 		return new Promise((resolve, reject) => {
 			var [currentAddress] = web3.eth.accounts;
-			// now the 1st term
+
 			web3.eth.getBalance(currentAddress, (e, balance) => {
 				if (e) return reject(e)
 				var infoCardTemplate = jQuery.templates('#infoCardContent');
@@ -77,21 +77,15 @@
 	}
 
 	async function updateTokenTable() {
-		// Plugin Dir
-		var dir = '<?php echo plugins_url(); ?>';
-
-		// Tokens
+		var dir = '<?php echo plugins_url(); ?>'; // set plugin dir with php
 		var tokenIds = [0,1,2];
 		
-		// Fetch JSON
 		var data = [...await Promise.all(tokenIds.map(i => axios.get(`${dir}/token-manager/json/${i}.json`)))]
 			.map(r => r.data)
 	
-		// Run JSON through templates
 		var tokenRowTemplate = jQuery.templates('#tokenRow');
 		var tokenRows = tokenRowTemplate.render(data);
 
-		// Dump templates into DOM
 		jQuery('table#tokenTable tbody').empty().html(tokenRows);
 	}
 
@@ -99,12 +93,10 @@
 
 	web3init();
 
-	//console.log(window.onload)
-
 	//jQuery(document).ready(async () => {
 	(async () => {
 		try {
-			await wait(500)
+			await wait(250)
 			await updateInfoCard(); // now you must await it, and you should catch it too, i.e. no balance data, abort?
 			updateTokenTable();		
 		} catch(e) {
