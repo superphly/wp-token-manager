@@ -80,6 +80,8 @@
 		var dir = '<?php echo plugins_url(); ?>'; // set plugin dir with php
 		var tokenIds = await Promise(axios.get('/wp-json/wp/v2/posts')).map(r => r.token_number);
 		
+		console.log(tokenIds);		
+		
 		var data = [...await Promise.all(tokenIds.map(i => axios.get(`${dir}/token-manager/json/${i}.json`)))]
 			.map(r => r.data)
 	
