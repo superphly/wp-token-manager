@@ -78,7 +78,7 @@
 
 	async function updateTokenTable() {
 		var dir = '<?php echo plugins_url(); ?>'; // set plugin dir with php
-		var tokenIds = [0,1,2];
+		var tokenIds = await Promise(axios.get('/wp-json/wp/v2/posts')).map(r => r.token_number);
 		
 		var data = [...await Promise.all(tokenIds.map(i => axios.get(`${dir}/token-manager/json/${i}.json`)))]
 			.map(r => r.data)
