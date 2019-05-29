@@ -27,7 +27,7 @@
 <script id="tokenRow" type="text/x-jsrender">
 	<tr>
 		<td>{{:id}}</td>
-		<td>{{:name}}</td>
+		<td>{{:json.name}}</td>
 		<td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a={{:owner}}">{{:owner}}</a></td>
 		<td><a href="https://ipfs.infura.io/ipfs/{{:ipfs}}">{{:ipfs}}</a></td>
 		<td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a={{:id}}">View</a></td>
@@ -71,22 +71,46 @@
 				balance = web3.fromWei(balance, 'ether')
 				var infoCardTemplate = jQuery.templates('#infoCardContent');
 				var infoCardContent = infoCardTemplate({ balance, currentAddress });
-				jQuery('div#infoCard').empty().html(infoCardContent);				
+				jQuery('div#infoCard').empty().html(infoCardContent);
 				resolve()
 			});
-		}) // cb fn dont return anything..
+		})
 	}
 
 	async function updateTokenTable() {
 		var dir = '<?php echo plugins_url(); ?>'; // set plugin dir with php
-		var tokenIds = await axios.get('/wp-json/wp/v2/posts');
-		tokenIds = tokenIds.data.map(r => r.token_number);
-		
-		var data = [...await Promise.all(tokenIds.map(i => axios.get(`${dir}/token-manager/json/${i}.json`)))]
-			.map(r => r.data)
-	
+
+		// get IDs from WordPress JSON API
+		var tokenPosts = await axios.get('/wp-json/wp/v2/posts');
+		var tokens = tokenPosts.data.map(r => { return {id: r.token_number}});
+
+		// get IPFS hash from chain
+		tokens.forEach((token) => {
+			registry.tokenURI(token.id, (e,r) => {
+				if (e) return reject(e)
+				token.ipfs = r
+			 });
+		});
+
+		tokens.forEach((token) => {
+			registry.ownerOf(token.id, (e,r) => {
+				if (e) return reject(e)
+				token.owner = r
+			 });
+		});
+
+		// get JSON file from IPFS using Infura (CORS issues with Infura)
+		// tokens.forEach(async (token) => {
+			// token.json = await  axios.get(`https://ipfs.infura.io/ipfs/${token.ipfs}`, { headers: {'Access-Control-Allow-Origin': '*',}});
+		// });
+
+		tokens.forEach(async (token) => {
+			response = await axios.get(`${dir}/wp-token-manager/json/${token.id}.json`);
+			token.json = response.data;
+		})
+
 		var tokenRowTemplate = jQuery.templates('#tokenRow');
-		var tokenRows = tokenRowTemplate.render(data);
+		var tokenRows = tokenRowTemplate.render(tokens);
 
 		jQuery('table#tokenTable tbody').empty().html(tokenRows);
 	}
@@ -107,7 +131,7 @@
 		try {
 			await wait(250)
 			await updateInfoCard(); // now you must await it, and you should catch it too, i.e. no balance data, abort?
-			updateTokenTable();		
+			updateTokenTable();
 		} catch(e) {
 			console.log('fook')
 		}
