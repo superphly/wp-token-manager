@@ -84,9 +84,9 @@
 		// get IDs from WordPress JSON API
 		async function getID() {
 			return new Promise((resolve, reject) => {
-				var tokenPosts = await axios.get('/wp-json/wp/v2/posts');
+				var tokenPosts = axios.get('/wp-json/wp/v2/posts');
 				var tokens = tokenPosts.data.map(r => { return {id: r.token_number}});
-				resolve(tokens);
+				resolve();
 			})
 		}
 
