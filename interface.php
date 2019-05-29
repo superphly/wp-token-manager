@@ -39,7 +39,7 @@
 	<h2 class="title">Your Ethereum Info</h2>
 	<p>
 		<strong>Ethereum Address:</strong> {{:currentAddress}}<br>
-		<strong>Balance: {{:balance}}
+		<strong>Balance:</strong> {{:balance}}
 	</p>
 </script>
 
@@ -68,6 +68,7 @@
 
 			web3.eth.getBalance(currentAddress, (e, balance) => {
 				if (e) return reject(e)
+				balance = web3.fromWei(balance, 'ether')
 				var infoCardTemplate = jQuery.templates('#infoCardContent');
 				var infoCardContent = infoCardTemplate({ balance, currentAddress });
 				jQuery('div#infoCard').empty().html(infoCardContent);				
