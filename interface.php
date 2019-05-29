@@ -94,7 +94,7 @@
 				var { data } = await axios.get(url, options)
 				return data  //Uncaught SyntaxError: missing ) after argument list
 			} catch(e) {
-				throw Http._error(resp)
+				throw Http._error(e)
 			}
 		}
 
@@ -114,27 +114,28 @@
 		}
 
 		async function getTokenData() {
-			try {
-				var ids = await Http.GET({ url: `/wp-json/wp/v2/post` })
-				var data = []
-				var owner, ipfs, json
-				for (var { token_number: id } of ids) {
-					owner = await getFromRegistry(id, 'ownerOf')
-					ipfs = await getFromRegistry(id, 'tokenURI')
-					json = await Http.GET({ url: `${dir}/wp-token-manager/json/${id}.json` })
-					data.push({ id, ipfs, owner, json })
-				}
-				return data
-			} catch(e) {
-				console.log(e)
+			var ids = await Http.GET({ url: `/wp-json/wp/v2/post` })
+			var data = []
+			var owner, ipfs, json
+			for (var { token_number: id } of ids) {
+				owner = await getFromRegistry(id, 'ownerOf')
+				ipfs = await getFromRegistry(id, 'tokenURI')
+				json = await Http.GET({ url: `${dir}/wp-token-manager/json/${id}.json` })
+				data.push({ id, ipfs, owner, json })
 			}
+			return data
 		}
-	
-		var tokens = await getTokenData()
-		console.log(tokens)
-		var tokenRowTemplate = jQuery.templates('#tokenRow');
-		var tokenRows = tokenRowTemplate.render(tokens);
-		jQuery('table#tokenTable tbody').empty().html(tokenRows);
+		
+		try {
+			var tokens = await getTokenData()
+			console.log(tokens)
+			var tokenRowTemplate = jQuery.templates('#tokenRow');
+			var tokenRows = tokenRowTemplate.render(tokens);
+			jQuery('table#tokenTable tbody').empty().html(tokenRows);
+		} catch(e) {
+			console.log('error')
+			console.log(e)
+		}
 	}
 
 	function transfer(id) {
