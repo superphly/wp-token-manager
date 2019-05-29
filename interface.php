@@ -62,7 +62,7 @@
 	}
 
 	// UI Update Functions
-	function updateInfoCard() {
+	async function updateInfoCard() {
 		return new Promise((resolve, reject) => {
 			var [currentAddress] = web3.eth.accounts;
 
@@ -79,44 +79,64 @@
 
 	async function updateTokenTable() {
 		var dir = '<?php echo plugins_url(); ?>'; // set plugin dir with php
+		var tokens;
 
-		async function getTokenData() {
-			// get IDs from WordPress JSON API
-			var tokenPosts = await axios.get('/wp-json/wp/v2/posts');
-			var tokens = tokenPosts.data.map(r => { return {id: r.token_number}});
-
-			// get IPFS hash from chain
-			await Promise.all(tokens.forEach((token) => {
-				registry.tokenURI(token.id, (e,r) => {
-					if (e) return reject(e)
-					token.ipfs = r
-				});
-			}));
-
-			await Promise.all(tokens.forEach((token) => {
-				registry.ownerOf(token.id, (e,r) => {
-					if (e) return reject(e)
-					token.owner = r
-				});
-			}));
-
-			await Promise.all(tokens.forEach((token) => {
-				response = axios.get(`${dir}/wp-token-manager/json/${token.id}.json`);
-				token.json = response.data; 
-			}));
-
-			// get JSON file from IPFS using Infura (CORS issues with Infura)
-			// tokens.forEach(async (token) => {
-				// token.json = await  axios.get(`https://ipfs.infura.io/ipfs/${token.ipfs}`, { headers: {'Access-Control-Allow-Origin': '*',}});
-			// });
-
-			return tokens;
+		// get IDs from WordPress JSON API
+		async function getID() {
+			return new Promise((resolve, reject) => {
+				var tokenPosts = await axios.get('/wp-json/wp/v2/posts');
+				var tokens = tokenPosts.data.map(r => { return {id: r.token_number}});
+				resolve(tokens);
+			})
 		}
 
-		var tokenData = await getTokenData();
+		// get IPFS hash from chain
+		async function getIPFS() {
+			return new Promise((resolve, reject) => {
+				tokens.forEach((token) => {
+					await registry.tokenURI(token.id, (e,r) => {
+						token.ipfs = r;
+					})
+				})
+				resolve();
+			})
+		}
+
+		async function getOwner() {
+			return new Promise((resolve, reject) => {
+				tokens.forEach(async (token) => {
+					await registry.ownerOf(token.id, (e,r) => {
+						if (e) return reject(e)
+						token.owner = r
+					})
+				})
+				resolve();
+			})
+		}
+
+		async function getJSON() {
+			return new Promise((resolve, reject) => {
+				// get JSON file from IPFS using Infura (CORS issues with Infura)
+				// token.json = await  axios.get(`https://ipfs.infura.io/ipfs/${token.ipfs}`, { headers: {'Access-Control-Allow-Origin': '*',}});
+
+				tokens.forEach(async (token) => {
+					response = await axios.get(`${dir}/wp-token-manager/json/${token.id}.json`);
+					token.json = response.data; 
+				})
+				resolve();
+			})
+		}
+
+		async function getTokenData() {
+			await getID();
+			await Promise.all([getIPFS(), getOwner(), getJSON()]);
+		}
+
+
+		await getTokenData();
 
 		var tokenRowTemplate = jQuery.templates('#tokenRow');
-		var tokenRows = tokenRowTemplate.render(tokenData);
+		var tokenRows = tokenRowTemplate.render(tokens);
 
 		jQuery('table#tokenTable tbody').empty().html(tokenRows);
 	}
