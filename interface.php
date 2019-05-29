@@ -109,12 +109,14 @@
 			// tokens.forEach(async (token) => {
 				// token.json = await  axios.get(`https://ipfs.infura.io/ipfs/${token.ipfs}`, { headers: {'Access-Control-Allow-Origin': '*',}});
 			// });
+
+			return tokens;
 		}
 
 		var tokenData = await getTokenData();
 
 		var tokenRowTemplate = jQuery.templates('#tokenRow');
-		var tokenRows = tokenRowTemplate.render(tokens);
+		var tokenRows = tokenRowTemplate.render(tokenData);
 
 		jQuery('table#tokenTable tbody').empty().html(tokenRows);
 	}
