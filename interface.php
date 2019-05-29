@@ -80,36 +80,40 @@
 	async function updateTokenTable() {
 		var dir = '<?php echo plugins_url(); ?>'; // set plugin dir with php
 
-		// get IDs from WordPress JSON API
-		var tokenPosts = await axios.get('/wp-json/wp/v2/posts');
-		var tokens = tokenPosts.data.map(r => { return {id: r.token_number}});
+		async function getTokenData() {
+			// get IDs from WordPress JSON API
+			var tokenPosts = await axios.get('/wp-json/wp/v2/posts');
+			var tokens = tokenPosts.data.map(r => { return {id: r.token_number}});
 
-		// get IPFS hash from chain
-		tokens.forEach(async (token) => {
-			await registry.tokenURI(token.id, (e,r) => {
-				if (e) return reject(e)
-				token.ipfs = r
-			 });
-		});
+			// get IPFS hash from chain
+			tokens.forEach(async (token) => {
+				await registry.tokenURI(token.id, (e,r) => {
+					if (e) return reject(e)
+					token.ipfs = r
+				});
+			});
 
-		tokens.forEach(async (token) => {
-			await registry.ownerOf(token.id, (e,r) => {
-				if (e) return reject(e)
-				token.owner = r
-			 });
-		});
+			tokens.forEach(async (token) => {
+				await registry.ownerOf(token.id, (e,r) => {
+					if (e) return reject(e)
+					token.owner = r
+				});
+			});
 
-		// get JSON file from IPFS using Infura (CORS issues with Infura)
-		// tokens.forEach(async (token) => {
-			// token.json = await  axios.get(`https://ipfs.infura.io/ipfs/${token.ipfs}`, { headers: {'Access-Control-Allow-Origin': '*',}});
-		// });
+			tokens.forEach(async (token) => {
+				response = await axios.get(`${dir}/wp-token-manager/json/${token.id}.json`);
+				token.json = response.data; 
+			})
 
-		tokens.forEach(async (token) => {
-			response = await axios.get(`${dir}/wp-token-manager/json/${token.id}.json`);
-			token.json = response.data; 
-		})
+			// get JSON file from IPFS using Infura (CORS issues with Infura)
+			// tokens.forEach(async (token) => {
+				// token.json = await  axios.get(`https://ipfs.infura.io/ipfs/${token.ipfs}`, { headers: {'Access-Control-Allow-Origin': '*',}});
+			// });
 
-		console.log(tokens);
+			return tokens
+		}
+
+		var tokenData = await getTokenData();
 
 		var tokenRowTemplate = jQuery.templates('#tokenRow');
 		var tokenRows = tokenRowTemplate.render(tokens);
