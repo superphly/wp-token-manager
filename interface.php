@@ -100,7 +100,7 @@
 
 	}
 
-	function updateTokenTable() {
+	async function updateTokenTable() {
 		var dir = '<?php echo plugins_url(); ?>';
 
 		function getFromRegistry(id, method) {
