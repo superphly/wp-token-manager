@@ -106,9 +106,10 @@
 
 		tokens.forEach(async (token) => {
 			response = await axios.get(`${dir}/wp-token-manager/json/${token.id}.json`);
-			console.log(typeof response);
-			token.json = response.data;
+			token.json = response.data; 
 		})
+
+		console.log(tokens);
 
 		var tokenRowTemplate = jQuery.templates('#tokenRow');
 		var tokenRows = tokenRowTemplate.render(tokens);
