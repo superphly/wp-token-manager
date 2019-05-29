@@ -27,7 +27,7 @@
 <script id="tokenRow" type="text/x-jsrender">
 	<tr>
 		<td>{{:id}}</td>
-		<td>{{:json}}</td>
+		<td>{{:json.name}}</td>
 		<td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a={{:owner}}">{{:owner}}</a></td>
 		<td><a href="https://ipfs.infura.io/ipfs/{{:ipfs}}">{{:ipfs}}</a></td>
 		<td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a={{:id}}">View</a></td>
@@ -77,24 +77,27 @@
 		})
 	}
 
-	async function updateTokenTable() {
+	function updateTokenTable() {
 		var dir = '<?php echo plugins_url(); ?>'; // set plugin dir with php
-		var tokens;
+		var tokens = [];
 
 		// get IDs from WordPress JSON API
 		async function getID() {
-			return new Promise((resolve, reject) => {
-				var tokenPosts = axios.get('/wp-json/wp/v2/posts');
-				var tokens = tokenPosts.data.map(r => { return {id: r.token_number}});
-				resolve();
+			console.log('getId')
+			await axios.get('/wp-json/wp/v2/posts')
+			.then((res) => {
+				tokens = res.data.map((p) => {
+					return {id: p.token_number}
+				})
 			})
 		}
 
 		// get IPFS hash from chain
-		async function getIPFS() {
+		function getIPFS() {
+			console.log('getIPFS')
 			return new Promise((resolve, reject) => {
 				tokens.forEach((token) => {
-					await registry.tokenURI(token.id, (e,r) => {
+					registry.tokenURI(token.id, (e,r) => {
 						token.ipfs = r;
 					})
 				})
@@ -102,10 +105,11 @@
 			})
 		}
 
-		async function getOwner() {
+		function getOwner() {
+			console.log('getOwner')
 			return new Promise((resolve, reject) => {
-				tokens.forEach(async (token) => {
-					await registry.ownerOf(token.id, (e,r) => {
+				tokens.forEach((token) => {
+					registry.ownerOf(token.id, (e,r) => {
 						if (e) return reject(e)
 						token.owner = r
 					})
@@ -114,14 +118,16 @@
 			})
 		}
 
-		async function getJSON() {
+		function getJSON() {
+			// get JSON file from IPFS using Infura (CORS issues with Infura)
+			// token.json = await  axios.get(`https://ipfs.infura.io/ipfs/${token.ipfs}`, { headers: {'Access-Control-Allow-Origin': '*',}});
+			console.log('getJSON')
 			return new Promise((resolve, reject) => {
-				// get JSON file from IPFS using Infura (CORS issues with Infura)
-				// token.json = await  axios.get(`https://ipfs.infura.io/ipfs/${token.ipfs}`, { headers: {'Access-Control-Allow-Origin': '*',}});
-
-				tokens.forEach(async (token) => {
-					response = await axios.get(`${dir}/wp-token-manager/json/${token.id}.json`);
-					token.json = response.data; 
+				tokens.forEach((token) => {
+					axios.get(`${dir}/wp-token-manager/json/${token.id}.json`)
+					.then((response) => {
+						token.json = response.data;
+					})
 				})
 				resolve();
 			})
@@ -132,15 +138,17 @@
 			await getIPFS();
 			await getOwner();
 			await getJSON();
+			await wait(3000)
 		}
-
-
-		await getTokenData();
-
-		var tokenRowTemplate = jQuery.templates('#tokenRow');
-		var tokenRows = tokenRowTemplate.render(tokens);
-
-		jQuery('table#tokenTable tbody').empty().html(tokenRows);
+		
+		getTokenData().then(() => {
+			console.log('template start')
+			var tokenRowTemplate = jQuery.templates('#tokenRow');
+			var tokenRows = tokenRowTemplate.render(tokens);
+			console.log('template middle')
+			jQuery('table#tokenTable tbody').empty().html(tokenRows);
+			console.log('template end')
+		})
 	}
 
 	function transfer(id) {
@@ -157,8 +165,8 @@
 
 	(async () => {
 		try {
-			await wait(250)
-			await updateInfoCard(); // now you must await it, and you should catch it too, i.e. no balance data, abort?
+			await wait(500)
+			updateInfoCard();
 			updateTokenTable();
 		} catch(e) {
 			console.log('fook')
