@@ -129,7 +129,9 @@
 
 		async function getTokenData() {
 			await getID();
-			await Promise.all([getIPFS(), getOwner(), getJSON()]);
+			await getIPFS();
+			await getOwner();
+			await getJSON();
 		}
 
 
