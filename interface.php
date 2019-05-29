@@ -89,9 +89,10 @@
 			return data
 		}
 		
-		static GET({ url, options }) {
+		static async GET({ url, options }) {
 			try {
-				return Http._success(await axios.get(url, options))
+				var { data } = await axios.get(url, options)
+				return data  //Uncaught SyntaxError: missing ) after argument list
 			} catch(e) {
 				throw Http._error(resp)
 			}
