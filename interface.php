@@ -86,21 +86,21 @@
 			var tokens = tokenPosts.data.map(r => { return {id: r.token_number}});
 
 			// get IPFS hash from chain
-			await Promise.all(tokens.forEach((token) => {
+			await Promise.all(tokens.forEach(async (token) => {
 				await registry.tokenURI(token.id, (e,r) => {
 					if (e) return reject(e)
 					token.ipfs = r
 				});
 			}));
 
-			await Promise.all(tokens.forEach((token) => {
+			await Promise.all(tokens.forEach(async (token) => {
 				await registry.ownerOf(token.id, (e,r) => {
 					if (e) return reject(e)
 					token.owner = r
 				});
 			}));
 
-			await Promise.all(tokens.forEach((token) => {
+			await Promise.all(tokens.forEach(async (token) => {
 				response = await axios.get(`${dir}/wp-token-manager/json/${token.id}.json`);
 				token.json = response.data; 
 			}));
