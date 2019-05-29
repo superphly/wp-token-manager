@@ -91,7 +91,7 @@
 		
 		static GET({ url, options }) {
 			try {
-				return Http._success(await axios.get(url, options)))
+				return Http._success(await axios.get(url, options))
 			} catch(e) {
 				throw Http._error(resp)
 			}
