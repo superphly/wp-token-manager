@@ -78,8 +78,8 @@
 
 	async function updateTokenTable() {
 		var dir = '<?php echo plugins_url(); ?>'; // set plugin dir with php
-    var tokenIds = await axios.get('/wp-json/wp/v2/posts');
-    tokenIds = tokenIds.data.map(r => r.token_number);
+		var tokenIds = await axios.get('/wp-json/wp/v2/posts');
+		tokenIds = tokenIds.data.map(r => r.token_number);
 		
 		var data = [...await Promise.all(tokenIds.map(i => axios.get(`${dir}/token-manager/json/${i}.json`)))]
 			.map(r => r.data)
@@ -90,9 +90,16 @@
 		jQuery('table#tokenTable tbody').empty().html(tokenRows);
 	}
 
+	function transfer(id) {
+		var toAddress = prompt("Ether Address to send to", "0xABCD");
+		registry.transferFrom(web3.eth.defaultAccount, toAddress, id, (e,r) => {
+			console.log('📩')
+		});
+	}
+
 	var wait = (ms) => new Promise(r => setTimeout(r, ms))
 
-  var registry;
+	var registry;
 	web3init();
 
 	(async () => {
