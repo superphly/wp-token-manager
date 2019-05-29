@@ -27,7 +27,7 @@
 <script id="tokenRow" type="text/x-jsrender">
 	<tr>
 		<td>{{:id}}</td>
-		<td>{{:json.name}}</td>
+		<td>{{:json}}</td>
 		<td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a={{:owner}}">{{:owner}}</a></td>
 		<td><a href="https://ipfs.infura.io/ipfs/{{:ipfs}}">{{:ipfs}}</a></td>
 		<td><a href="https://ropsten.etherscan.io/token/0xfed7020a24472aca24b1afa2f71a388c17f6634a?a={{:id}}">View</a></td>
