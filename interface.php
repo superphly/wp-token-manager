@@ -114,7 +114,7 @@
 		}
 
 		async function getTokenData() {
-			var ids = await Http.GET({ url: `/wp-json/wp/v2/post` })
+			var ids = await Http.GET({ url: `/wp-json/wp/v2/posts` })
 			var data = []
 			var owner, ipfs, json
 			for (var { token_number: id } of ids) {
