@@ -95,7 +95,6 @@
   var registry;
 	web3init();
 
-	//jQuery(document).ready(async () => {
 	(async () => {
 		try {
 			await wait(250)
