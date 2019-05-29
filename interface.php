@@ -85,15 +85,15 @@
 		var tokens = tokenPosts.data.map(r => { return {id: r.token_number}});
 
 		// get IPFS hash from chain
-		tokens.forEach((token) => {
-			registry.tokenURI(token.id, (e,r) => {
+		tokens.forEach(async (token) => {
+			await registry.tokenURI(token.id, (e,r) => {
 				if (e) return reject(e)
 				token.ipfs = r
 			 });
 		});
 
-		tokens.forEach((token) => {
-			registry.ownerOf(token.id, (e,r) => {
+		tokens.forEach(async (token) => {
+			await registry.ownerOf(token.id, (e,r) => {
 				if (e) return reject(e)
 				token.owner = r
 			 });
