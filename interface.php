@@ -77,84 +77,69 @@
 		})
 	}
 
+	class Http {
+
+		static _error({ response }) {
+			var { status: code, statusText: text, data } = response
+			var status = { code, text }
+			return { status, data }
+		}
+
+		static _success({ data }) {
+			return data
+		}
+		
+		static GET({ url, options }) {
+			try {
+				return Http._success(await axios.get(url, options)))
+			} catch(e) {
+				throw Http._error(resp)
+			}
+		}
+
+	}
+
 	function updateTokenTable() {
-		var dir = '<?php echo plugins_url(); ?>'; // set plugin dir with php
-		var tokens = [];
+		var dir = '<?php echo plugins_url(); ?>';
 
-		// get IDs from WordPress JSON API
-		async function getID() {
-			console.log('getId')
-			await axios.get('/wp-json/wp/v2/posts')
-			.then((res) => {
-				tokens = res.data.map((p) => {
-					return {id: p.token_number}
-				})
-			})
-		}
-
-		// get IPFS hash from chain
-		function getIPFS() {
-			console.log('getIPFS')
+		function getFromRegistry(id, method) {
 			return new Promise((resolve, reject) => {
-				tokens.forEach((token) => {
-					registry.tokenURI(token.id, (e,r) => {
-						token.ipfs = r;
-					})
+				registry[method](id, (e,r) => {
+					if (e)
+						return reject(e)
+					resolve(r)
 				})
-				resolve();
-			})
-		}
-
-		function getOwner() {
-			console.log('getOwner')
-			return new Promise((resolve, reject) => {
-				tokens.forEach((token) => {
-					registry.ownerOf(token.id, (e,r) => {
-						if (e) return reject(e)
-						token.owner = r
-					})
-				})
-				resolve();
-			})
-		}
-
-		function getJSON() {
-			// get JSON file from IPFS using Infura (CORS issues with Infura)
-			// token.json = await  axios.get(`https://ipfs.infura.io/ipfs/${token.ipfs}`, { headers: {'Access-Control-Allow-Origin': '*',}});
-			console.log('getJSON')
-			return new Promise((resolve, reject) => {
-				tokens.forEach((token) => {
-					axios.get(`${dir}/wp-token-manager/json/${token.id}.json`)
-					.then((response) => {
-						token.json = response.data;
-					})
-				})
-				resolve();
 			})
 		}
 
 		async function getTokenData() {
-			await getID();
-			await getIPFS();
-			await getOwner();
-			await getJSON();
-			await wait(3000)
+			try {
+				var ids = await Http.GET({ url: `/wp-json/wp/v2/post` })
+				var data = []
+				var owner, ipfs, json
+				for (var { token_number: id } of ids) {
+					owner = await getFromRegistry(id, 'ownerOf')
+					ipfs = await getFromRegistry(id, 'tokenURI')
+					json = await Http.GET({ url: `${dir}/wp-token-manager/json/${id}.json` })
+					data.push({ id, ipfs, owner, json })
+				}
+				return data
+			} catch(e) {
+				console.log(e)
+			}
 		}
-		
-		getTokenData().then(() => {
-			console.log('template start')
-			var tokenRowTemplate = jQuery.templates('#tokenRow');
-			var tokenRows = tokenRowTemplate.render(tokens);
-			console.log('template middle')
-			jQuery('table#tokenTable tbody').empty().html(tokenRows);
-			console.log('template end')
-		})
+	
+		var tokens = await getTokenData()
+		console.log(tokens)
+		var tokenRowTemplate = jQuery.templates('#tokenRow');
+		var tokenRows = tokenRowTemplate.render(tokens);
+		jQuery('table#tokenTable tbody').empty().html(tokenRows);
 	}
 
 	function transfer(id) {
-		var toAddress = prompt("Ether Address to send to", "0xABCD");
+		var toAddress = prompt('Ether Address to send to', '0xABCD');
 		registry.transferFrom(web3.eth.defaultAccount, toAddress, id, (e,r) => {
-			console.log('📩')
+			console.log('sent')
 		});
 	}
 
