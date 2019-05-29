@@ -86,31 +86,29 @@
 			var tokens = tokenPosts.data.map(r => { return {id: r.token_number}});
 
 			// get IPFS hash from chain
-			tokens.forEach(async (token) => {
+			await Promise.all(tokens.forEach((token) => {
 				await registry.tokenURI(token.id, (e,r) => {
 					if (e) return reject(e)
 					token.ipfs = r
 				});
-			});
+			}));
 
-			tokens.forEach(async (token) => {
+			await Promise.all(tokens.forEach((token) => {
 				await registry.ownerOf(token.id, (e,r) => {
 					if (e) return reject(e)
 					token.owner = r
 				});
-			});
+			}));
 
-			tokens.forEach(async (token) => {
+			await Promise.all(tokens.forEach((token) => {
 				response = await axios.get(`${dir}/wp-token-manager/json/${token.id}.json`);
 				token.json = response.data; 
-			})
+			}));
 
 			// get JSON file from IPFS using Infura (CORS issues with Infura)
 			// tokens.forEach(async (token) => {
 				// token.json = await  axios.get(`https://ipfs.infura.io/ipfs/${token.ipfs}`, { headers: {'Access-Control-Allow-Origin': '*',}});
 			// });
-
-			return tokens
 		}
 
 		var tokenData = await getTokenData();
